@@ -1,16 +1,15 @@
-# React + Vite
+# OctoFit Tracker presentation tier
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Run the React application with `npm run dev` on port `5173`. React Router
+provides navigation for activities, leaderboard, teams, users, and workouts.
 
-Currently, two official plugins are available:
+The API URL is constructed using Vite's
+`import.meta.env.VITE_CODESPACE_NAME`. In Codespaces, define
+`VITE_CODESPACE_NAME` in `octofit-tracker/frontend/.env.local` using the
+Codespaces name (not a URL). Copy `.env.example` as a starting point. Vite
+loads environment files at startup, so restart the dev server after changing
+one. When the variable is unset or invalid, the app falls back to
+`http://localhost:8000`.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Resource views support API responses returned as an array or as a paginated
+object with a `results` or `data` array.
