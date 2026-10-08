@@ -6,7 +6,8 @@
     "dev": "tsx watch src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "seed": "tsx src/scripts/seed.ts"
+    "seed": "tsx src/scripts/seed.ts",
+    "seed:octofit_db": "tsx src/scripts/seed.ts"
   },
   "dependencies": {
     "express": "^5.0.0",

@@ -4,7 +4,9 @@ The Express API runs on port `8000` and connects to MongoDB database `octofit_db
 Set `MONGODB_URI` to override the default local MongoDB connection string.
 
 Run `npm run dev` for development, `npm run build` to compile TypeScript, and
-`npm start` to run the compiled server.
+`npm start` to run the compiled server. Run `npm run seed:octofit_db` to
+populate `octofit_db` with sample users, teams, activities, leaderboard
+entries, and workouts. The seed uses upserts and can safely be run again.
 Run `npm run seed` to seed `octofit_db` with repeatable sample data for users,
 teams, activities, leaderboard entries, and workouts.
 
