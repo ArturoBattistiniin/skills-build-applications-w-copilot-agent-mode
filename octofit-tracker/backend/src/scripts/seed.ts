@@ -39,13 +39,14 @@ async function seedDatabase(): Promise<void> {
       },
     ];
     const users = await Promise.all(
-      userData.map((user) =>
-        User.findOneAndUpdate(
+      userData.map(async (user) => {
+        const existing = await User.findOneAndUpdate(
           { username: user.username },
           { $set: user },
-          { upsert: true, new: true, setDefaultsOnInsert: true },
-        ),
-      ),
+          { new: true },
+        );
+        return existing ?? User.create(user);
+      }),
     );
     const usersByUsername = new Map(
       users.map((user) => [user.username, user._id]),
@@ -74,7 +75,11 @@ async function seedDatabase(): Promise<void> {
         return Team.findOneAndUpdate(
           { name: team.name },
           { $set: { name: team.name, description: team.description, members } },
-          { upsert: true, new: true, setDefaultsOnInsert: true },
+          { new: true },
+        ).then(
+          (existing) =>
+            existing ??
+            Team.create({ name: team.name, description: team.description, members }),
         );
       }),
     );
@@ -139,7 +144,10 @@ async function seedDatabase(): Promise<void> {
         return Activity.findOneAndUpdate(
           { user: userId, type: data.type, occurredAt: data.occurredAt },
           { $set: { ...data, user: userId } },
-          { upsert: true, new: true, setDefaultsOnInsert: true },
+          { new: true },
+        ).then(
+          (existing) =>
+            existing ?? Activity.create({ ...data, user: userId }),
         );
       }),
     );
@@ -161,7 +169,11 @@ async function seedDatabase(): Promise<void> {
         return Leaderboard.findOneAndUpdate(
           { user: userId },
           { $set: { user: userId, team: teamId, points: entry.points } },
-          { upsert: true, new: true, setDefaultsOnInsert: true },
+          { new: true },
+        ).then(
+          (existing) =>
+            existing ??
+            Leaderboard.create({ user: userId, team: teamId, points: entry.points }),
         );
       }),
     );
@@ -208,8 +220,8 @@ async function seedDatabase(): Promise<void> {
         Workout.findOneAndUpdate(
           { name: workout.name },
           { $set: workout },
-          { upsert: true, new: true, setDefaultsOnInsert: true },
-        ),
+          { new: true },
+        ).then((existing) => existing ?? Workout.create(workout)),
       ),
     );
 

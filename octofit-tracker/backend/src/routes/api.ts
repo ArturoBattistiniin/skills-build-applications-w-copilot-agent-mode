@@ -6,9 +6,9 @@ import teamsRouter from './teams';
 import usersRouter from './users';
 import workoutsRouter from './workouts';
 
-const apiRouter = Router();
+const router = Router();
 
-apiRouter.get('/', (_request, response) => {
+router.get('/api/', (_request, response) => {
   response.json({
     apiUrl: apiBaseUrl,
     resources: [
@@ -21,10 +21,10 @@ apiRouter.get('/', (_request, response) => {
   });
 });
 
-apiRouter.use('/users', usersRouter);
-apiRouter.use('/teams', teamsRouter);
-apiRouter.use('/activities', activitiesRouter);
-apiRouter.use('/leaderboard', leaderboardRouter);
-apiRouter.use('/workouts', workoutsRouter);
+router.use('/api/users', usersRouter);
+router.use('/api/teams', teamsRouter);
+router.use('/api/activities', activitiesRouter);
+router.use('/api/leaderboard', leaderboardRouter);
+router.use('/api/workouts', workoutsRouter);
 
-export default apiRouter;
+export default router;
