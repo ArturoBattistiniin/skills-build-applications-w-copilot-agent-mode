@@ -18,12 +18,16 @@ apiRouter.get('/', (_request, response) => {
   });
 });
 
-function collectionRouter<T>(model: Model<T>, sort?: Record<string, 1 | -1>): Router {
+function collectionRouter<T>(
+  model: Model<T>,
+  options: { sort?: Record<string, 1 | -1>; populate?: string[] } = {},
+): Router {
   const router = Router();
 
   router.get('/', async (_request: Request, response: Response) => {
     const query = model.find();
-    if (sort) query.sort(sort);
+    if (options.sort) query.sort(options.sort);
+    options.populate?.forEach((path) => query.populate(path));
     response.json(await query.exec());
   });
 
@@ -45,9 +49,12 @@ function collectionRouter<T>(model: Model<T>, sort?: Record<string, 1 | -1>): Ro
 }
 
 apiRouter.use('/users', collectionRouter(User));
-apiRouter.use('/teams', collectionRouter(Team));
-apiRouter.use('/activities', collectionRouter(Activity));
-apiRouter.use('/leaderboard', collectionRouter(Leaderboard, { points: -1 }));
+apiRouter.use('/teams', collectionRouter(Team, { populate: ['members'] }));
+apiRouter.use('/activities', collectionRouter(Activity, { populate: ['user'] }));
+apiRouter.use(
+  '/leaderboard',
+  collectionRouter(Leaderboard, { sort: { points: -1 }, populate: ['user', 'team'] }),
+);
 apiRouter.use('/workouts', collectionRouter(Workout));
 
 export default apiRouter;

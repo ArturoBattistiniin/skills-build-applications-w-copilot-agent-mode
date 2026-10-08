@@ -10,7 +10,9 @@ teams, activities, leaderboard entries, and workouts.
 
 The `/api/` endpoint lists the available resources and the API base URL. In
 GitHub Codespaces, the URL is built from `CODESPACE_NAME`; locally it defaults
-to `http://localhost:8000`.
+to `http://localhost:8000`. Team responses include their member profiles,
+activity responses include their user, and leaderboard responses include both
+the user and team.
 
 | Resource | List | Create |
 | --- | --- | --- |

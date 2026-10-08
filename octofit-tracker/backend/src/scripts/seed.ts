@@ -8,6 +8,13 @@ import { Activity, Leaderboard, Team, User, Workout } from '../models';
 async function seedDatabase(): Promise<void> {
   try {
     await connectDatabase();
+    await Promise.all([
+      User.init(),
+      Team.init(),
+      Activity.init(),
+      Leaderboard.init(),
+      Workout.init(),
+    ]);
 
     const userData = [
       {

@@ -4,16 +4,16 @@ const userSchema = new Schema(
   {
     username: { type: String, required: true, trim: true, unique: true },
     email: { type: String, required: true, trim: true, lowercase: true, unique: true },
-    name: { type: String, trim: true },
+    name: { type: String, required: true, trim: true },
   },
   { timestamps: true },
 );
 
 const teamSchema = new Schema(
   {
-    name: { type: String, required: true, trim: true },
-    description: { type: String, trim: true },
-    members: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+    name: { type: String, required: true, trim: true, unique: true },
+    description: { type: String, required: true, trim: true },
+    members: { type: [{ type: Schema.Types.ObjectId, ref: 'User' }], default: [] },
   },
   { timestamps: true },
 );
@@ -40,11 +40,15 @@ const leaderboardSchema = new Schema(
 
 const workoutSchema = new Schema(
   {
-    name: { type: String, required: true, trim: true },
-    description: { type: String, trim: true },
+    name: { type: String, required: true, trim: true, unique: true },
+    description: { type: String, required: true, trim: true },
     activityType: { type: String, required: true, trim: true },
     durationMinutes: { type: Number, required: true, min: 1 },
-    difficulty: { type: String, enum: ['beginner', 'intermediate', 'advanced'], default: 'beginner' },
+    difficulty: {
+      type: String,
+      enum: ['beginner', 'intermediate', 'advanced'],
+      default: 'beginner',
+    },
   },
   { timestamps: true },
 );
